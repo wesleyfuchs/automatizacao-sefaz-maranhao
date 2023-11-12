@@ -11,7 +11,8 @@ def ler_texto_em_imagem(caminho_da_imagem):
     return texto
 
 # Exemplo de uso
-caminho_imagem = '/home/advintegra/Área de trabalho/wesley/automatizacao-sefaz-maranhao/captcha3.png'
+# caminho_imagem = '/home/advintegra/Área de trabalho/wesley/automatizacao-sefaz-maranhao/captcha3.png'
+caminho_imagem = 'C:/Users/uesley/Documents/GitHubRepositorios/sefaz-ma/captcha.png'
 texto_extraido = ler_texto_em_imagem(caminho_imagem)
 
 # Exibindo o texto extraído
