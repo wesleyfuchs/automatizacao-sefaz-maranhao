@@ -5,7 +5,7 @@ import pytesseract
 from io import BytesIO
 
 # Caminho para o executável do Tesseract (altere conforme necessário)
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
 # URL da página
 url_pagina = 'https://quadlayers.com/add-captcha-to-woocommerce-login/'
