@@ -174,7 +174,7 @@ def iniciar_automacao():
 # Configurações da janela do tkinter
 window = tk.Tk()
 window.title("Automatização Sefaz-MA")
-window.geometry("400x200")
+window.geometry("350x150")
 
 # Criar três variáveis para armazenar os valores inseridos pelo usuário
 empresa_var = tk.StringVar()
@@ -194,16 +194,16 @@ dief_entry = tk.Entry(window, textvariable=dief_var)
 iniciar_button = tk.Button(window, text="Iniciar Automação", command=iniciar_automacao)
 
 # Posicionar os elementos na janela
-empresa_label.grid(row=0, column=0, pady=5)
-empresa_entry.grid(row=0, column=1, pady=5)
+empresa_label.grid(row=0, column=0, pady=5, padx=25)
+empresa_entry.grid(row=0, column=1, pady=5, padx=25)
 
-socio_label.grid(row=1, column=0, pady=5)
-socio_entry.grid(row=1, column=1, pady=5)
+socio_label.grid(row=1, column=0, pady=5, padx=25)
+socio_entry.grid(row=1, column=1, pady=5, padx=25)
 
-dief_label.grid(row=2, column=0, pady=5)
-dief_entry.grid(row=2, column=1, pady=5)
+dief_label.grid(row=2, column=0, pady=5, padx=25)
+dief_entry.grid(row=2, column=1, pady=5, padx=25)
 
-iniciar_button.grid(row=3, column=0, columnspan=2, pady=10)
+iniciar_button.grid(row=3, column=0, columnspan=2, pady=10, padx=25)
 
 # Iniciar o loop principal do tkinter
 window.mainloop()
