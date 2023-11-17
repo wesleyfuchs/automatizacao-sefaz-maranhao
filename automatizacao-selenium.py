@@ -17,6 +17,8 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 
 def automatizar_sefaz(num_empresa, num_socio, num_dief):
     
+    dataset = [("2", "31"), ("10", "11")]
+    
     def ocr_imagem():
         # Localizar o elemento da imagem pelo ID 
         elemento_imagem = driver.find_element(By.ID, "form1:captcha")
@@ -64,7 +66,7 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
     # Seleciona o frame
     iframe = driver.find_element(By.NAME, 'mainFrame')
     driver.switch_to.frame(iframe)
-
+    
     # Encontrar o elemento IE Empresa
     input_empresa = driver.find_element(By.NAME, 'form1:j_id11')
     # numero_empresa = "123235669"
@@ -83,87 +85,121 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
     protocolo_dief = num_dief
     input_dief.send_keys(protocolo_dief) 
     time.sleep(1)
-
-    # Encontrar o elemento do calendario pop up (data inicial)
-    element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
-    # Executa as ações
-    element.click()
-    time.sleep(1)
-    botao_calendario = driver.find_element(By.ID, 'form1:dtIniDayCell2')
-    botao_calendario.click()
-
-    # Encontrar o elemento do calendario pop up (data final)
-    element = driver.find_element(By.ID, 'form1:dtFinPopupButton')
-    # Executa as ações
-    element.click()
-    time.sleep(1)
-    botao_calendario = driver.find_element(By.ID, 'form1:dtFinDayCell15')
-    botao_calendario.click()
-
-    texto_extraido = ocr_imagem()
-
-    # Encontrar o campo para inserir o Captcha
-    input_captcha = driver.find_element(By.NAME, 'form1:j_id35')
-    # Limpar o conteúdo do campo
-    input_captcha.clear()
-    input_captcha.send_keys(texto_extraido) 
-    # input_captcha.send_keys("123456")
-    time.sleep(2)
-
-    # Encontrar o elemento Baixar XML
-    element_baixar_xml = driver.find_element(By.NAME, 'form1:j_id41')
-    element_baixar_xml.click()
-    # time.sleep(3)
-
-    # Esperar até 10 segundos para ver se o download inicia ou uma mensagem é exibida
-    try:
-        # Esperar pelo início do download
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'ui-messages-warn-detail')))
+    
+    # Aguardar até que o elemento de rádio esteja visível e interagível
+    botao_tipo_notas = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, 'form1:j_id25:0'))
+    )
+    # Verificar se o rádio não está marcado
+    if not botao_tipo_notas.is_selected():
+        # Clicar no rádio para marcá-lo
+        botao_tipo_notas.click()
+    
+    for data in dataset:
+        # Encontrar o elemento do calendario pop up (data inicial)
+        element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
+        # Executa as ações
+        element.click()
+        time.sleep(1)
         
-        # Verificar se é uma mensagem de erro de captcha
-        try:
-            captcha_error_message = driver.find_element(By.XPATH, "//span[contains(@class, 'ui-messages-warn-detail') and text()='Código da imagem está inválido.']").text
-            if captcha_error_message:
-                print(f"Erro no captcha: {captcha_error_message}")
-                # Pode tentar novamente aqui antes de sair ou lançar uma exceção
+        botao_calendario = driver.find_element(By.ID, f'form1:dtIniDayCell{data[0]}')
+        botao_calendario.click()
 
-                texto_extraido = ocr_imagem()
-                time.sleep(2)
-                # Encontrar o campo para inserir o Captcha
-                input_captcha = driver.find_element(By.NAME, 'form1:j_id35')
-                # Limpar o conteúdo do campo
-                input_captcha.clear()
-                input_captcha.send_keys(texto_extraido) 
-                time.sleep(2)
-                # Encontrar o elemento Baixar XML
-                element_baixar_xml = driver.find_element(By.NAME, 'form1:j_id41')
-                element_baixar_xml.click()
-        except NoSuchElementException:
-            # Se o bloco 'try' foi bem-sucedido, continue aqui para verificar outros elementos
-            pass
-        # Verificar se é uma mensagem de ausência de download
-        try:
-            no_download_message = driver.find_element(By.XPATH, "//span[contains(@class, 'ui-messages-warn-detail') and text()='A consulta foi realizada com sucesso porém não foram encontradas notas.']").text
-            if no_download_message:
-                print(f"Nada para baixar: {no_download_message}")
-                # Pode sair do loop ou fazer outra ação apropriada
-        except NoSuchElementException:
-            pass
-            # Se não houver mensagens relevantes, continue no loop ou faça outra ação apropriada
-    except TimeoutException:
-        # Se não houver download iniciado, e não há mensagens de erro ou de ausência de download
-        # presume-se que o download foi iniciado corretamente
-        print("Download iniciado com sucesso!")
+        # Encontrar o elemento do calendario pop up (data final)
+        element = driver.find_element(By.ID, 'form1:dtFinPopupButton')
+        # Executa as ações
+        element.click()
+        time.sleep(1)
+        
+        botao_calendario = driver.find_element(By.ID, f'form1:dtFinDayCell{data[1]}')
+        botao_calendario.click()
 
-    time.sleep(2)
+        texto_extraido = ocr_imagem()
+
+        # Encontrar o campo para inserir o Captcha
+        input_captcha = driver.find_element(By.NAME, 'form1:j_id35')
+        # Limpar o conteúdo do campo
+        input_captcha.clear()
+        input_captcha.send_keys(texto_extraido) 
+        # input_captcha.send_keys("123456")
+        time.sleep(2)
+
+        # Encontrar o elemento Baixar XML
+        element_baixar_xml = driver.find_element(By.NAME, 'form1:j_id41')
+        element_baixar_xml.click()
+        # time.sleep(3)
+
+        # Esperar até 10 segundos para ver se o download inicia ou uma mensagem é exibida
+        try:
+            # Esperar pelo início do download
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'ui-messages-warn-detail')))
+            
+            # Verificar se é uma mensagem de erro de captcha
+            try:
+                captcha_error_message = driver.find_element(By.XPATH, "//span[contains(@class, 'ui-messages-warn-detail') and text()='Código da imagem está inválido.']").text
+                if captcha_error_message:
+                    print(f"Erro no captcha: {captcha_error_message}")
+                    # Pode tentar novamente aqui antes de sair ou lançar uma exceção
+
+                    texto_extraido = ocr_imagem()
+                    time.sleep(2)
+                    # Encontrar o campo para inserir o Captcha
+                    input_captcha = driver.find_element(By.NAME, 'form1:j_id35')
+                    # Limpar o conteúdo do campo
+                    input_captcha.clear()
+                    input_captcha.send_keys(texto_extraido) 
+                    time.sleep(2)
+                    # Encontrar o elemento Baixar XML
+                    element_baixar_xml = driver.find_element(By.NAME, 'form1:j_id41')
+                    element_baixar_xml.click()
+            except NoSuchElementException:
+                # Se o bloco 'try' foi bem-sucedido, continue aqui para verificar outros elementos
+                pass
+            # Verificar se é uma mensagem de ausência de download
+            try:
+                no_download_message = driver.find_element(By.XPATH, "//span[contains(@class, 'ui-messages-warn-detail') and text()='A consulta foi realizada com sucesso porém não foram encontradas notas.']").text
+                if no_download_message:
+                    print(f"Nada para baixar: {no_download_message}")
+                    # Pode sair do loop ou fazer outra ação apropriada
+            except NoSuchElementException:
+                pass
+                # Se não houver mensagens relevantes, continue no loop ou faça outra ação apropriada
+        except TimeoutException:
+            # Se não houver download iniciado, e não há mensagens de erro ou de ausência de download
+            # presume-se que o download foi iniciado corretamente
+            print("Download iniciado com sucesso!")
+
+        time.sleep(2)
+        # <span class="ui-messages-warn-detail">A consulta foi realizada com sucesso porém não foram encontradas notas.</span>
+        # <span class="ui-messages-warn-detail">Código da imagem está inválido.</span>
+        # <span class="ui-messages-warn-detail">Todos os campos com (*) devem ser informados.</span>
+        
+        # Encontrar o elemento do calendario pop up (data inicial)
+        element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
+        # Executa as ações
+        element.click()
+        time.sleep(1)
+        
+        # Encontrar o elemento do botão "<" pelo XPath
+        botao_anterior = driver.find_element(By.XPATH, "//div[text()='<']")
+        # Clicar no botão
+        botao_anterior.click()
+        time.sleep(2)
+
+        # Encontrar o elemento do calendario pop up (data final)
+        element = driver.find_element(By.ID, 'form1:dtFinPopupButton')
+        # Executa as ações
+        element.click()
+        # Encontrar o elemento do botão "<" pelo XPath
+        botao_anterior = driver.find_element(By.XPATH, "//div[text()='<']")
+        # Clicar no botão
+        botao_anterior.click()
+        time.sleep(2)
+    
     # Fechar o navegador
     driver.quit()
-
-
-    # <span class="ui-messages-warn-detail">A consulta foi realizada com sucesso porém não foram encontradas notas.</span>
-    # <span class="ui-messages-warn-detail">Código da imagem está inválido.</span>
-    # <span class="ui-messages-warn-detail">Todos os campos com (*) devem ser informados.</span>
     
+        
 # Função para iniciar a automação quando o botão for pressionado
 def iniciar_automacao():
     num_empresa = empresa_entry.get()
