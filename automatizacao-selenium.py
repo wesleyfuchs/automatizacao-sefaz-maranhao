@@ -99,6 +99,7 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
     for data in dataset:
 
         # Mudar forma para voltar o mes, clicar no nome do mes > selecionar mes desejado > ano desejado
+        # Se o botao < for clicado uma vez nao tem como clicar uma segunda vez
         # Encontrar o elemento do calendario pop up (data inicial)
         element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
         # Executa as ações
@@ -122,8 +123,8 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
         time.sleep(3)
 
         # Localizar o botão pelo XPath e clicar nele
-        botao_anterior_2 = driver.find_element(By.XPATH, "//div[text()='<']")
-        botao_anterior_2.click()
+        botao_anterior = driver.find_element(By.XPATH, "//div[text()='<']")
+        botao_anterior.click()
         time.sleep(1)
         
         botao_calendario = driver.find_element(By.ID, f'form1:dtFinDayCell{data[1]}')
