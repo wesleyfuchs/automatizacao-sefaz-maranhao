@@ -17,7 +17,8 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 
 def automatizar_sefaz(num_empresa, num_socio, num_dief):
     
-    dataset = [("2", "31"), ("10", "11")]
+    dataset = [("6", "36"), ("4", "33"), ("1", "31"), ("5", "35"), ("3", "32"), ("0", "30"), 
+               ("5", "34"), ("2", "32"), ("2", "29"), ("6", "36") ] # Janeiro 2023 ("2", "31"), 
     
     def ocr_imagem():
         # Localizar o elemento da imagem pelo ID 
@@ -96,23 +97,38 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
         botao_tipo_notas.click()
     
     for data in dataset:
+
+        # Mudar forma para voltar o mes, clicar no nome do mes > selecionar mes desejado > ano desejado
         # Encontrar o elemento do calendario pop up (data inicial)
         element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
         # Executa as ações
         element.click()
         time.sleep(1)
+
+        # Encontrar o elemento do botão "<" pelo XPath
+        botao_anterior = driver.find_element(By.XPATH, "//div[text()='<']")
+        # Clicar no botão
+        botao_anterior.click()
+        time.sleep(1)
         
         botao_calendario = driver.find_element(By.ID, f'form1:dtIniDayCell{data[0]}')
         botao_calendario.click()
+        time.sleep(1)
 
         # Encontrar o elemento do calendario pop up (data final)
         element = driver.find_element(By.ID, 'form1:dtFinPopupButton')
         # Executa as ações
         element.click()
+        time.sleep(3)
+
+        # Localizar o botão pelo XPath e clicar nele
+        botao_anterior_2 = driver.find_element(By.XPATH, "//div[text()='<']")
+        botao_anterior_2.click()
         time.sleep(1)
         
         botao_calendario = driver.find_element(By.ID, f'form1:dtFinDayCell{data[1]}')
         botao_calendario.click()
+        time.sleep(1)
 
         texto_extraido = ocr_imagem()
 
@@ -174,28 +190,6 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
         # <span class="ui-messages-warn-detail">Código da imagem está inválido.</span>
         # <span class="ui-messages-warn-detail">Todos os campos com (*) devem ser informados.</span>
         
-        # Encontrar o elemento do calendario pop up (data inicial)
-        element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
-        # Executa as ações
-        element.click()
-        time.sleep(1)
-        
-        # Encontrar o elemento do botão "<" pelo XPath
-        botao_anterior = driver.find_element(By.XPATH, "//div[text()='<']")
-        # Clicar no botão
-        botao_anterior.click()
-        time.sleep(2)
-
-        # Encontrar o elemento do calendario pop up (data final)
-        element = driver.find_element(By.ID, 'form1:dtFinPopupButton')
-        # Executa as ações
-        element.click()
-        # Encontrar o elemento do botão "<" pelo XPath
-        botao_anterior = driver.find_element(By.XPATH, "//div[text()='<']")
-        # Clicar no botão
-        botao_anterior.click()
-        time.sleep(2)
-    
     # Fechar o navegador
     driver.quit()
     
