@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.common.action_chains import ActionChains
 # from seleniumwire import webdriver
 import tkinter as tk
 from PIL import Image
@@ -18,7 +19,9 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 def automatizar_sefaz(num_empresa, num_socio, num_dief):
     
     dataset = [("6", "36"), ("4", "33"), ("1", "31"), ("5", "35"), ("3", "32"), ("0", "30"), 
-               ("5", "34"), ("2", "32"), ("2", "29"), ("6", "36") ] # Janeiro 2023 ("2", "31"), 
+               ("5", "34"), ("2", "32"), ("2", "29"), ("6", "36"), ("3", "33"), ("1", "30"),
+               ("5", "35"), ("3", "32"), ("0", "30"), ("4", "34"), ("2", "31"), ("6", "36"),
+               ("4", "33"), ("1", "31"), ("1", "28"), ("5", "35")] # Outubro 2023 > Janeiro 2022
     
     def ocr_imagem():
         # Localizar o elemento da imagem pelo ID 
@@ -106,30 +109,46 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
         element.click()
         time.sleep(1)
 
-        # Encontrar o elemento do botão "<" pelo XPath
-        botao_anterior = driver.find_element(By.XPATH, "//div[text()='<']")
-        # Clicar no botão
-        botao_anterior.click()
-        time.sleep(1)
         
-        botao_calendario = driver.find_element(By.ID, f'form1:dtIniDayCell{data[0]}')
-        botao_calendario.click()
-        time.sleep(1)
+        # Interagir com o calendário inicial
+        # botao_anterior_ini = WebDriverWait(driver, 15).until(
+        # EC.element_to_be_clickable((By.XPATH, "//div[text()='<']"))
+        # )
+        # botao_anterior_ini.click()
+        # time.sleep(1)
+        # Encontrar o elemento do botão
+        xpath_botao_anterior_ini = "//td[@id='form1:dtIniHeader']//div[text()='<']"
+        botao_anterior_ini = driver.find_element(By.XPATH, xpath_botao_anterior_ini)
+        botao_anterior_ini.click()
+        # time.sleep(1)
+        # driver.execute_script("arguments[0].click();", botao_anterior_ini)
 
-        # Encontrar o elemento do calendario pop up (data final)
+        botao_calendario_ini = driver.find_element(By.ID, f'form1:dtIniDayCell{data[0]}')
+        botao_calendario_ini.click()
+        time.sleep(2)
+
+        # Interagir com o calendário final
         element = driver.find_element(By.ID, 'form1:dtFinPopupButton')
-        # Executa as ações
         element.click()
         time.sleep(3)
 
-        # Localizar o botão pelo XPath e clicar nele
-        botao_anterior = driver.find_element(By.XPATH, "//div[text()='<']")
-        botao_anterior.click()
+        # botao_anterior_fin = WebDriverWait(driver, 15).until(
+        # EC.element_to_be_clickable((By.XPATH, "//div[text()='<']"))
+        # )
+        # botao_anterior_fin.click()
+        # time.sleep(1)
+
+        # Encontrar o elemento do botão
+        xpath_botao_anterior_fin = "//td[@id='form1:dtFinHeader']//div[text()='<']"
+        botao_anterior_fin = driver.find_element(By.XPATH, xpath_botao_anterior_fin)
+        # driver.execute_script("arguments[0].click();", botao_anterior_fin)
+        botao_anterior_fin.click()
         time.sleep(1)
-        
-        botao_calendario = driver.find_element(By.ID, f'form1:dtFinDayCell{data[1]}')
-        botao_calendario.click()
+
+        botao_calendario_fin = driver.find_element(By.ID, f'form1:dtFinDayCell{data[1]}')
+        botao_calendario_fin.click()
         time.sleep(1)
+
 
         texto_extraido = ocr_imagem()
 
