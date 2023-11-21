@@ -21,7 +21,8 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
     dataset = [("6", "36"), ("4", "33"), ("1", "31"), ("5", "35"), ("3", "32"), ("0", "30"), 
                ("5", "34"), ("2", "32"), ("2", "29"), ("6", "36"), ("3", "33"), ("1", "30"),
                ("5", "35"), ("3", "32"), ("0", "30"), ("4", "34"), ("2", "31"), ("6", "36"),
-               ("4", "33"), ("1", "31"), ("1", "28"), ("5", "35")] # Outubro 2023 > Janeiro 2022
+               ("4", "33"), ("1", "31"), ("1", "28"), ("5", "35"), ("2", "32"), ("0", "29"),
+               ("4", "34"), ("2", "31"), ("6", "36"), ("3", "33"), ("1", "30"), ("5", "35")] # Outubro 2023 > Maio 2021
     
     def ocr_imagem():
         # Localizar o elemento da imagem pelo ID 
@@ -56,6 +57,8 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
     # Configurar o webdriver
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(options=options)
+    driver.maximize_window()
+    time.sleep(3)
     
     # Configurar o webdriver com o suporte ao selenium-wire
     # options = webdriver.ChromeOptions()
