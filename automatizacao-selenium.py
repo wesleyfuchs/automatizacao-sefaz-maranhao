@@ -109,9 +109,7 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
     time.sleep(2)
 
     for data in dataset:
-
-        # Mudar forma para voltar o mes, clicar no nome do mes > selecionar mes desejado > ano desejado
-        # Se o botao < for clicado uma vez nao tem como clicar uma segunda vez
+        
         # Encontrar o elemento do calendario pop up (data inicial)
         element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
         # Executa as ações
