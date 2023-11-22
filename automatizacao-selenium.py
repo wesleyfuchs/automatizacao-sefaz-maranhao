@@ -106,7 +106,8 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
     if not botao_tipo_notas.is_selected():
         # Clicar no rádio para marcá-lo
         botao_tipo_notas.click()
-    
+    time.sleep(2)
+
     for data in dataset:
 
         # Mudar forma para voltar o mes, clicar no nome do mes > selecionar mes desejado > ano desejado
@@ -128,17 +129,17 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
         xpath_botao_anterior_ini = "//td[@id='form1:dtIniHeader']//div[text()='<']"
         botao_anterior_ini = driver.find_element(By.XPATH, xpath_botao_anterior_ini)
         botao_anterior_ini.click()
-        # time.sleep(1)
+        time.sleep(1)
         # driver.execute_script("arguments[0].click();", botao_anterior_ini)
 
         botao_calendario_ini = driver.find_element(By.ID, f'form1:dtIniDayCell{data[0]}')
         botao_calendario_ini.click()
-        time.sleep(2)
+        time.sleep(1)
 
         # Interagir com o calendário final
         element = driver.find_element(By.ID, 'form1:dtFinPopupButton')
         element.click()
-        time.sleep(3)
+        time.sleep(1)
 
         # botao_anterior_fin = WebDriverWait(driver, 15).until(
         # EC.element_to_be_clickable((By.XPATH, "//div[text()='<']"))
