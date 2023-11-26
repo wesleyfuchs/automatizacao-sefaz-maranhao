@@ -8,7 +8,7 @@
 
 
 # Sobre o projeto 📚
- Automatização do site [Sefaz-MA](https://sistemas1.sefaz.ma.gov.br/download-nfe/) em Python. <br> 
+ Automatização do site [Sefaz-MA](https://sistemas1.sefaz.ma.gov.br/download-nfe) em Python. <br> 
 
 ## Iniciando o projeto... 📌
 
