@@ -12,6 +12,27 @@ from PIL import Image
 import pytesseract
 import time
 
+"""
+Nome do Programa: [Automatização Sefaz-MA]
+Autor: [Wesley Fuchs]
+Data de Criação: [20/11/2023]
+
+Este programa foi criado para automatizar os downloads de NFC-e e NF-e do site do Sefaz MA
+
+Instruções de Uso: O usuario precisa passsar os dados de 'IE Empresa', 'CPF Sócio', 'Último Protocolo DIEF'. e clicar no botão 'Iniciar',
+após isso o programa fara o download de notas de Outubro 2023 a Novembro 2018.
+
+Requisitos necessários: 
+- Tesseract instalado no diretório: 'C:\Program Files\Tesseract-OCR'
+- ChromeDriver no diretório: 'C:\Program Files\ChromeDriver'
+- Chromium no diretório: 'C:\Program Files\Chromium'
+
+Histórico de Versões:
+- [Versão 1.0 (31/10/2023): Automatiza os downloads de NFC-e e NF-e]
+
+"""
+
+
 # Caminho do Tesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
