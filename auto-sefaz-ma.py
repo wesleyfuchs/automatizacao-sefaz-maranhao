@@ -62,7 +62,7 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
     chrome_driver_path = 'C:/Program Files/ChromeDriver/chromedriver.exe'
 
     # Configurar o caminho para o executável do Chromium
-    chromium_path = 'C:/Program Files/ChromeDriver/chrome-win64/chrome.exe'
+    chromium_path = 'C:/Program Files/Chromium/chrome.exe'
 
     # Criar opções para o ChromeDriver
     chrome_options = webdriver.ChromeOptions()

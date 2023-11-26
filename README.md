@@ -1,9 +1,4 @@
-[# automatizacao-sefaz-maranhao](https://tesseract-ocr.github.io/tessdoc/Installation.html)https://tesseract-ocr.github.io/tessdoc/Installation.html
 
-chrome driver
-
-
-https://sistemas1.sefaz.ma.gov.br/download-nfe/
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
 | :placard: **** |     |
@@ -13,10 +8,7 @@ https://sistemas1.sefaz.ma.gov.br/download-nfe/
 
 
 # Sobre o projeto 📚
-
-<p>
- Automatização do site do [Sefaz-MA](https://sistemas1.sefaz.ma.gov.br/download-nfe/) em Python. <br> 
-</p>
+ Automatização do site [Sefaz-MA](https://sistemas1.sefaz.ma.gov.br/download-nfe/) em Python. <br> 
 
 ## Iniciando o projeto... 📌
 
@@ -42,5 +34,8 @@ cxfreeze auto-click.py --target-dir nome_da_pasta </br>
 ### 4. Requesitos necessarios para rodas o programa: </br>
 É necessário ter instalado: </br>
 - [Tesseract](https://tesseract-ocr.github.io/tessdoc/Installation.html) </br>
-- [Baixar versões iguais de ChromeDriver e Chromium](https://chromedriver.chromium.org/downloads)
+- [Baixar versões iguais de ChromeDriver e Chromium](https://chromedriver.chromium.org/downloads) </br>
+- Colocar ChormeDriver e Chromium nos seguintes diretorios: </br>
+- ChromeDriver = 'C:/Program Files/ChromeDriver' </br>
+- Chromium = 'C:/Program Files/Chromium'
 
