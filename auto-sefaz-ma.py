@@ -58,10 +58,23 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief):
         
         return texto_extraido
 
-    # Inicializar o driver do Selenium (certifique-se de ter o WebDriver correspondente ao seu navegador instalado)
-    # Configurar o webdriver
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(options=options)
+    # Configurar o caminho para o executável do ChromeDriver
+    chrome_driver_path = 'C:/Program Files/ChromeDriver/chromedriver.exe'
+
+    # Configurar o caminho para o executável do Chromium
+    chromium_path = 'C:/Program Files/ChromeDriver/chrome-win64/chrome.exe'
+
+    # Criar opções para o ChromeDriver
+    chrome_options = webdriver.ChromeOptions()
+    
+    # Especificar o caminho para o ChromeDriver nas opções
+    chrome_options.add_argument(f"webdriver.chrome.driver={chrome_driver_path}")
+
+    # Especificar o caminho para o Chromium
+    chrome_options.binary_location = chromium_path
+
+    # Criar uma instância do WebDriver do Chrome usando as opções
+    driver = webdriver.Chrome(options=chrome_options)
     driver.maximize_window()
     time.sleep(3)
     
