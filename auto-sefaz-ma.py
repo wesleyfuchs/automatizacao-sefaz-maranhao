@@ -37,7 +37,7 @@ Histórico de Versões:
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
-def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas):
+def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas, tipo_notas_var):
     
     dataset = [("6", "36"), ("4", "33"), ("1", "31"), ("5", "35"), ("3", "32"), ("0", "30"), 
                ("5", "34"), ("2", "32"), ("2", "29"), ("6", "36"), ("3", "33"), ("1", "30"),
@@ -150,14 +150,27 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
 
     time.sleep(2)
     
-    # Aguardar até que o elemento de rádio esteja visível e interagível
-    botao_tipo_notas = WebDriverWait(driver, 10).until(
+    # Botões radio - Tipo de Notas: Ambos - NFE - NFCE
+    botao_tipo_notas_ambos = WebDriverWait(driver, 10).until(
     EC.element_to_be_clickable((By.ID, 'form1:j_id25:0'))
     )
-    # Verificar se o rádio não está marcado
-    if not botao_tipo_notas.is_selected():
-        # Clicar no rádio para marcá-lo
-        botao_tipo_notas.click()
+    botao_tipo_notas_nfe = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, 'form1:j_id25:1'))
+    )
+    botao_tipo_notas_nfce = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.ID, 'form1:j_id25:2'))
+    )
+
+    if tipo_notas_var == 1:
+        if not botao_tipo_notas_ambos.is_selected():
+            botao_tipo_notas_ambos.click()
+    elif tipo_notas_var == 2:
+        if not botao_tipo_notas_nfe.is_selected():
+            botao_tipo_notas_nfe.click()
+    elif tipo_notas_var == 3:
+        if not botao_tipo_notas_nfce.is_selected():
+            botao_tipo_notas_nfce.click()
+
     time.sleep(2)
 
     for data in dataset:
@@ -279,18 +292,20 @@ def iniciar_automacao():
     num_socio = socio_entry.get()
     num_dief = dief_entry.get()
     notas_recebidas_emitidas = notas_var.get()
-    automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas)
+    tipo_notas = tipo_notas_var.get()
+    automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas, tipo_notas)
 
 # Configurações da janela do tkinter
 window = tk.Tk()
 window.title("Automatização Sefaz-MA")
-window.geometry("350x200")
+window.geometry("450x220")
 
 # Criar três variáveis para armazenar os valores inseridos pelo usuário
 empresa_var = tk.StringVar()
 socio_var = tk.StringVar()
 dief_var = tk.StringVar()
 notas_var = tk.IntVar(value=1)
+tipo_notas_var = tk.IntVar(value=1)
 
 # Criar três caixas de entrada (Entry) para que o usuário possa digitar os valores
 empresa_label = tk.Label(window, text="Número da Empresa:")
@@ -304,6 +319,10 @@ dief_entry = tk.Entry(window, textvariable=dief_var)
 
 radio_button_1 = tk.Radiobutton(window, text="Emitidas", variable=notas_var, value=1)
 radio_button_2 = tk.Radiobutton(window, text="Recebidas", variable=notas_var, value=2)
+
+radio_button_3 = tk.Radiobutton(window, text="Ambos", variable=tipo_notas_var, value=1)
+radio_button_4 = tk.Radiobutton(window, text="NFE", variable=tipo_notas_var, value=2)
+radio_button_5 = tk.Radiobutton(window, text="NFCE", variable=tipo_notas_var, value=3)
 
 iniciar_button = tk.Button(window, text="Iniciar Automação", command=iniciar_automacao)
 
@@ -320,7 +339,11 @@ dief_entry.grid(row=2, column=1, pady=5, padx=25)
 radio_button_1.grid(row=3, column=0, pady=5, padx=25)
 radio_button_2.grid(row=3, column=1, pady=5, padx=25)
 
-iniciar_button.grid(row=4, column=0, columnspan=2, pady=10, padx=25)
+radio_button_3.grid(row=4, column=0, pady=5, padx=25)
+radio_button_4.grid(row=4, column=1, pady=5, padx=25)
+radio_button_5.grid(row=4, column=2, pady=5, padx=25)
+
+iniciar_button.grid(row=5, column=1, pady=10, padx=25)
 
 # Iniciar o loop principal do tkinter
 window.mainloop()
