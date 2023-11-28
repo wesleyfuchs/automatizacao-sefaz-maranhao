@@ -1,0 +1,6 @@
+### Requesitos necessarios para rodas o programa ###
+- Tesseract -> https://tesseract-ocr.github.io/tessdoc/Installation.html
+- Baixar versões iguais de ChromeDriver e Chromium -> https://chromedriver.chromium.org/downloads
+- Colocar ChormeDriver e Chromium nos seguintes diretorios:
+- ChromeDriver -> 'C:/Program Files/ChromeDriver'
+- Chromium -> 'C:/Program Files/Chromium'
