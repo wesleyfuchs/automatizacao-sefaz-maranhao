@@ -30,6 +30,8 @@ Requisitos necessários:
 Histórico de Versões:
 - [Versão 1.0 (31/10/2023): Automatiza os downloads de NFC-e e NF-e]
 
+**A verificacao por mensagem de erro no captcha esta sendo feita apenas uma vez**
+
 """
 
 
@@ -246,20 +248,34 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
             try:
                 captcha_error_message = driver.find_element(By.XPATH, "//span[contains(@class, 'ui-messages-warn-detail') and text()='Código da imagem está inválido.']").text
                 if captcha_error_message:
-                    print(f"Erro no captcha: {captcha_error_message}")
-                    # Pode tentar novamente aqui antes de sair ou lançar uma exceção
+                    while True:
 
-                    texto_extraido = ocr_imagem()
-                    time.sleep(2)
-                    # Encontrar o campo para inserir o Captcha
-                    input_captcha = driver.find_element(By.NAME, 'form1:j_id35')
-                    # Limpar o conteúdo do campo
-                    input_captcha.clear()
-                    input_captcha.send_keys(texto_extraido) 
-                    time.sleep(2)
-                    # Encontrar o elemento Baixar XML
-                    element_baixar_xml = driver.find_element(By.NAME, 'form1:j_id41')
-                    element_baixar_xml.click()
+                        # Your existing code for OCR and entering captcha
+                        print(f"Erro no captcha: {captcha_error_message}")
+                        # Pode tentar novamente aqui antes de sair ou lançar uma exceção
+                        texto_extraido = ocr_imagem()
+                        time.sleep(2)
+                        # Encontrar o campo para inserir o Captcha
+                        input_captcha = driver.find_element(By.NAME, 'form1:j_id35')
+                        # Limpar o conteúdo do campo
+                        input_captcha.clear()
+                        input_captcha.send_keys(texto_extraido) 
+                        time.sleep(2)
+                        # Encontrar o elemento Baixar XML
+                        element_baixar_xml = driver.find_element(By.NAME, 'form1:j_id41')
+                        element_baixar_xml.click()
+                    
+                        # Verificar se é uma mensagem de erro de captcha
+                        try:
+                            captcha_error_message = driver.find_element(By.XPATH, "//span[contains(@class, 'ui-messages-warn-detail') and text()='Código da imagem está inválido.']").text
+                            if captcha_error_message:
+                                print(f"Erro no captcha: {captcha_error_message}")
+                                # Retry handling captcha error
+                            else:
+                                break  # Break the loop if no captcha error
+                        except NoSuchElementException:
+                            break  # Break the loop if element not foun
+
             except NoSuchElementException:
                 # Se o bloco 'try' foi bem-sucedido, continue aqui para verificar outros elementos
                 pass
