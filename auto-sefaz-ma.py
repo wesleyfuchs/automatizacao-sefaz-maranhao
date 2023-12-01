@@ -28,9 +28,8 @@ Requisitos necessários:
 - Chromium no diretório: 'C:\Program Files\Chromium'
 
 Histórico de Versões:
-- [Versão 1.0 (31/10/2023): Automatiza os downloads de NFC-e e NF-e]
-
-**A verificacao por mensagem de erro no captcha esta sendo feita apenas uma vez**
+- [Versão 1.0 (19/10/2023): Automatiza os downloads de NFC-e e NF-e]
+- [Versão 2.0 (30/11/2023): Correção de falhas no projeto e adicionado todas as funções do site]
 
 """
 
