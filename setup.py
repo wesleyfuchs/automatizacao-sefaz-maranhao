@@ -12,7 +12,7 @@ if sys.platform == "win32":
 
 setup(
     name="auto-sefaz-ma",
-    version="2.0",
+    version="2.1",
     description="Automatização de download de NF-e e NFC-e no site sefaz.ma.gov.br",
     options={"build_exe": build_exe_options},
     executables=[Executable("auto-sefaz-ma.py", base=base)],
