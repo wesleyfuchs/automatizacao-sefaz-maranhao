@@ -3,7 +3,7 @@ from cx_Freeze import setup, Executable
 
 build_exe_options = {
     "packages": [],
-    "include_files": ["tools/"],
+    "include_files": ["tools/", "assets/"],
 }
 
 base = None

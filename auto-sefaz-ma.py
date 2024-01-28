@@ -38,18 +38,25 @@ Histórico de Versões:
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
-def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas, tipo_notas_var):
+def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas, tipo_notas_var, file_path):
     
-    dataset = [("2", "31"), ("6", "36"), ("4", "33"), ("1", "31"), ("5", "35"), ("3", "32"),
-               ("0", "30"), ("5", "34"), ("2", "32"), ("2", "29"), ("6", "36"), ("3", "33"),
-               ("1", "30"), ("5", "35"), ("3", "32"), ("0", "30"), ("4", "34"), ("2", "31"),
-               ("6", "36"), ("4", "33"), ("1", "31"), ("1", "28"), ("5", "35"), ("2", "32"), 
-               ("0", "29"), ("4", "34"), ("2", "31"), ("6", "36"), ("3", "33"), ("1", "30"),
-               ("5", "35"), ("3", "32"), ("0", "30"), ("0", "27"), ("4", "34"), ("1", "31"),
-               ("6", "35"), ("3", "33"), ("1", "30"), ("2", "32"), ("0", "29"), ("4", "34"),
-               ("2", "31"), ("6", "36"), ("5", "33"), ("2", "32"), ("6", "36"), ("4", "33"),
-               ("1", "31"), ("6", "35"), ("3", "33"), ("0", "30"), ("5", "34"), ("2", "32"),
-               ("0", "29"), ("4", "34"), ("4", "31"), ("1", "31"), ("5", "35"), ("3", "32")] # Novembro 2023 > Novembro 2018
+    # dataset = [("4", "34"), ("2", "31"), ("6", "36"), ("4", "33"), ("1", "31"), ("5", "35"), ("3", "32"),
+    #            ("0", "30"), ("5", "34"), ("2", "32"), ("2", "29"), ("6", "36"), ("3", "33"),
+    #            ("1", "30"), ("5", "35"), ("3", "32"), ("0", "30"), ("4", "34"), ("2", "31"),
+    #            ("6", "36"), ("4", "33"), ("1", "31"), ("1", "28"), ("5", "35"), ("2", "32"), 
+    #            ("0", "29"), ("4", "34"), ("2", "31"), ("6", "36"), ("3", "33"), ("1", "30"),
+    #            ("5", "35"), ("3", "32"), ("0", "30"), ("0", "27"), ("4", "34"), ("1", "31"),
+    #            ("6", "35"), ("3", "33"), ("1", "30"), ("2", "32"), ("0", "29"), ("4", "34"),
+    #            ("2", "31"), ("6", "36"), ("5", "33"), ("2", "32"), ("6", "36"), ("4", "33"),
+    #            ("1", "31"), ("6", "35"), ("3", "33"), ("0", "30"), ("5", "34"), ("2", "32"),
+    #            ("0", "29"), ("4", "34"), ("4", "31"), ("1", "31"), ("5", "35"), ("3", "32")] # Novembro 2023 > Novembro 2018
+    
+    # Leitura das datas do arquivo
+    with open(file_path, 'r') as file:
+        date_lines = file.readlines()
+    
+    # Processamento das linhas do arquivo para obter as datas
+    date_sets = [tuple(line.strip().split(',')) for line in date_lines]
     
     def ocr_imagem():
         # Localizar o elemento da imagem pelo ID 
@@ -174,7 +181,7 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
 
     time.sleep(2)
 
-    for data in dataset:
+    for data in date_sets:
         
         # Encontrar o elemento do calendario pop up (data inicial)
         element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
@@ -308,7 +315,11 @@ def iniciar_automacao():
     num_dief = dief_entry.get()
     notas_recebidas_emitidas = notas_var.get()
     tipo_notas = tipo_notas_var.get()
-    automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas, tipo_notas)
+    # Caminho do arquivo de datas
+    file_path = 'assets/datas.txt'
+    automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas, tipo_notas, file_path)
+    
+    
 
 # Configurações da janela do tkinter
 window = tk.Tk()
