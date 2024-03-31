@@ -30,6 +30,7 @@ Requisitos necessários:
 Histórico de Versões:
 - [Versão 1.0 (19/10/2023): Automatiza os downloads de NFC-e e NF-e]
 - [Versão 2.0 (30/11/2023): Correção de falhas no projeto e adicionado todas as funções do site]
+- [Versão 3.0 (30/11/2023): Ajustar tempos de espera]
 
 """
 
@@ -187,7 +188,7 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
         element = driver.find_element(By.ID, 'form1:dtIniPopupButton')
         # Executa as ações
         element.click()
-        time.sleep(1)
+        # time.sleep(1)
 
         
         # Interagir com o calendário inicial
@@ -200,17 +201,17 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
         xpath_botao_anterior_ini = "//td[@id='form1:dtIniHeader']//div[text()='<']"
         botao_anterior_ini = driver.find_element(By.XPATH, xpath_botao_anterior_ini)
         botao_anterior_ini.click()
-        time.sleep(1)
+        # time.sleep(1)
         # driver.execute_script("arguments[0].click();", botao_anterior_ini)
 
         botao_calendario_ini = driver.find_element(By.ID, f'form1:dtIniDayCell{data[0]}')
         botao_calendario_ini.click()
-        time.sleep(1)
+        # time.sleep(1)
 
         # Interagir com o calendário final
         element = driver.find_element(By.ID, 'form1:dtFinPopupButton')
         element.click()
-        time.sleep(1)
+        # time.sleep(1)
 
         # botao_anterior_fin = WebDriverWait(driver, 15).until(
         # EC.element_to_be_clickable((By.XPATH, "//div[text()='<']"))
@@ -219,15 +220,15 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
         # time.sleep(1)
 
         # Encontrar o elemento do botão
-        xpath_botao_anterior_fin = "//td[@id='form1:dtFinHeader']//div[text()='<']"
-        botao_anterior_fin = driver.find_element(By.XPATH, xpath_botao_anterior_fin)
+        xpath_botao_anterior_fim = "//td[@id='form1:dtFinHeader']//div[text()='<']"
+        botao_anterior_fin = driver.find_element(By.XPATH, xpath_botao_anterior_fim)
         # driver.execute_script("arguments[0].click();", botao_anterior_fin)
         botao_anterior_fin.click()
-        time.sleep(1)
+        # time.sleep(1)
 
-        botao_calendario_fin = driver.find_element(By.ID, f'form1:dtFinDayCell{data[1]}')
-        botao_calendario_fin.click()
-        time.sleep(1)
+        botao_calendario_fim = driver.find_element(By.ID, f'form1:dtFinDayCell{data[1]}')
+        botao_calendario_fim.click()
+        # time.sleep(1)
 
 
         texto_extraido = ocr_imagem()
@@ -238,17 +239,17 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
         input_captcha.clear()
         input_captcha.send_keys(texto_extraido) 
         # input_captcha.send_keys("123456")
-        time.sleep(2)
+        # time.sleep(2)
 
         # Encontrar o elemento Baixar XML
         element_baixar_xml = driver.find_element(By.NAME, 'form1:j_id41')
         element_baixar_xml.click()
         # time.sleep(3)
 
-        # Esperar até 10 segundos para ver se o download inicia ou uma mensagem é exibida
+        # Esperar até 3 segundos para ver se o download inicia ou uma mensagem é exibida
         try:
             # Esperar pelo início do download
-            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, 'ui-messages-warn-detail')))
+            WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CLASS_NAME, 'ui-messages-warn-detail')))
             
             # Verificar se é uma mensagem de erro de captcha
             try:
@@ -260,13 +261,13 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
                         print(f"Erro no captcha: {captcha_error_message}")
                         # Pode tentar novamente aqui antes de sair ou lançar uma exceção
                         texto_extraido = ocr_imagem()
-                        time.sleep(2)
+                        # time.sleep(2)
                         # Encontrar o campo para inserir o Captcha
                         input_captcha = driver.find_element(By.NAME, 'form1:j_id35')
                         # Limpar o conteúdo do campo
                         input_captcha.clear()
                         input_captcha.send_keys(texto_extraido) 
-                        time.sleep(2)
+                        # time.sleep(2)
                         # Encontrar o elemento Baixar XML
                         element_baixar_xml = driver.find_element(By.NAME, 'form1:j_id41')
                         element_baixar_xml.click()
@@ -280,7 +281,7 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
                             else:
                                 break  # Break the loop if no captcha error
                         except NoSuchElementException:
-                            break  # Break the loop if element not foun
+                            break  # Break the loop if element not found
 
             except NoSuchElementException:
                 # Se o bloco 'try' foi bem-sucedido, continue aqui para verificar outros elementos
@@ -299,7 +300,7 @@ def automatizar_sefaz(num_empresa, num_socio, num_dief, notas_recebidas_emitidas
             # presume-se que o download foi iniciado corretamente
             print("Download iniciado com sucesso!")
 
-        time.sleep(2)
+        # time.sleep(2)
         # <span class="ui-messages-warn-detail">A consulta foi realizada com sucesso porém não foram encontradas notas.</span>
         # <span class="ui-messages-warn-detail">Código da imagem está inválido.</span>
         # <span class="ui-messages-warn-detail">Todos os campos com (*) devem ser informados.</span>
